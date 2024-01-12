@@ -71,6 +71,7 @@ In the GitLab Runner installation directory, define the following settings in th
 - .NET 4.6.2 ([https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=msbuild-developerpacks](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=msbuild-developerpacks)) 
 - nuget ([https://www.nuget.org/downloads](https://www.nuget.org/downloads))
 - python ([https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/))
+- go ([https://go.dev/doc/install](https://go.dev/doc/install))
 - PyInstaller ([https://pyinstaller.org/en/stable/installation.html](https://pyinstaller.org/en/stable/installation.html))
 
 ### 4.4 Set/Modify environment variables
