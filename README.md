@@ -52,6 +52,7 @@ Happy Hacking! :)
 - **snaffler:** Fileshare Discovery and Enumeration tool (https://github.com/SnaffCon/Snaffler)
 - **stracciatella:** OpSec-safe Powershell runspace tool (https://github.com/mgeeky/Stracciatella)
 - **winpeas:** Local Privilege Escalation tool (https://github.com/carlospolop/PEASS-ng/tree/master)
+- **Whisker:** Active Directory Shadow Credentials tool (https://github.com/eladshamir/Whisker)
 
 ## FAQ
 ### Why do you do that?
