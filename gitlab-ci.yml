@@ -2,7 +2,6 @@
 
 stages:
   - cleanup
-  - adalanche
   - pingcastle
   - sharphound
   - rubeus
@@ -21,6 +20,8 @@ stages:
   - winpeas
   - crassus
   - sharpwsus
+  - adalanche
+  - whisker
   - release
 
 variables:
@@ -227,7 +228,6 @@ build_lazagne:
     REPO_DIR: "LaZagne"
   extends: .git:push
   script:
-    #- pyinstaller --onefile -p $ROOT_DIR\$REPO_DIR\Windows --distpath $ROOT_DIR\$REPO_DIR\dist --workpath $ROOT_DIR\$REPO_DIR\build --specpath $ROOT_DIR\$REPO_DIR\ $ROOT_DIR\$REPO_DIR\Windows\laZagne.py
     - cd $ROOT_DIR\$REPO_DIR\Windows\
     - pyinstaller lazagne.spec
     - cd ..\..\..\
@@ -259,7 +259,7 @@ build_inveigh:
     - dotnet restore $ROOT_DIR\$REPO_DIR
     - dotnet build $ROOT_DIR\$REPO_DIR /p:DebugType=None /p:DebugSymbols=false
     - mkdir $BIN_DIR\Inveigh
-    - cp -Recurse $ROOT_DIR\$REPO_DIR\Inveigh\bin\Debug\net7.0\ $BIN_DIR\Inveigh\
+    - cp -Recurse $ROOT_DIR\$REPO_DIR\Inveigh\bin\Debug\net8.0\ $BIN_DIR\Inveigh\
 
 
 build_sharpup:
@@ -308,7 +308,8 @@ build_certipy:
     REPO_DIR: "Certipy"
   extends: .git:push
   script:
-    - pyinstaller --onefile --distpath $ROOT_DIR\$REPO_DIR\dist --workpath $ROOT_DIR\$REPO_DIR\build --specpath $ROOT_DIR\$REPO_DIR\ $ROOT_DIR\$REPO_DIR\certipy\entry.py -n Certipy.exe
+    - pip3 install git+https://github.com/ly4k/ldap3
+    - pyinstaller --onefile --distpath $ROOT_DIR\$REPO_DIR\dist --workpath $ROOT_DIR\$REPO_DIR\build --specpath $ROOT_DIR\$REPO_DIR\ $ROOT_DIR\$REPO_DIR\certipy\entry.py -n Certipy.exe --hidden-import unicrypto.backends.pycryptodomex
     - cp $ROOT_DIR\$REPO_DIR\dist\Certipy.exe $BIN_DIR\
 
 
@@ -340,6 +341,18 @@ build_adalanche:
     - cp -Recurse $ROOT_DIR\$REPO_DIR\binaries $BIN_DIR\Adalanche\
 
 
+build_whisker:
+  stage: whisker
+  variables:
+    GIT_REPO: "https://github.com/eladshamir/Whisker"
+    MAINTAINER: "eladshamir"
+    REPO_DIR: "Whisker"
+  extends: .git:push
+  script:
+    - MSBuild.exe -t:build $ROOT_DIR\$REPO_DIR\Whisker.sln /p:DebugType=None /p:DebugSymbols=false
+    - cp $ROOT_DIR\$REPO_DIR\Whisker\bin\Debug\Whisker.exe $BIN_DIR\
+
+
 create_release:
   stage: release
   script:
@@ -356,4 +369,6 @@ create_release:
       $LATEST_TAG = "REL-" + $VERSION
       gh release create --latest $LATEST_TAG
       gh release upload $LATEST_TAG "${BIN_DIR}.zip" --clobber
+      
+
       
